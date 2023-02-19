@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/init.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="css/userAccounts.css">
+</head>
+<body>
+
+
+    <div clas='container-fluid'>
+        <div>
+            <div class="settingsMenu">
+                <nav class="navbar navbar-dark bg-warning">
+                    <div class="container-fluid">
+                        <a class="navbar-brand" href="index.html">
+                            <i class="bi bi-diagram-3-fill" style='font-size: 1em;'></i>                            
+                        </a>
+                        <div class='dropdown'>
+                            <button class="btn btn-warning dropdown-toggle" id="accountMenu" data-bs-toggle="dropdown" aria-expanded="false">My Account</button>
+                            <ul class='dropdown-menu' aria-labelledby="accountMenu">
+                                <li><a href='newOrder.html' id="newOrder" class='dropdown-item'>New Order</a></li>
+                                <li><a href='orders.html' id="newOrder" class='dropdown-item'>Orders</a></li>
+                                <li><a href='acceptedOrders.html' id="newOrder" class='dropdown-item'>Accepted Orders</a></li>
+                                <li><a href='processingOrders.html' id="newOrder" class='dropdown-item'>Processing Orders</a></li>
+                                <li><a href='completedOrders.html' id="newOrder" class='dropdown-item'>Completed Orders</a></li>
+                                <li><a href='stock.html' id="stock" class='dropdown-item'>Stock</a></li>
+                                <li><a href='userAccounts.html' id="userAccount" class='dropdown-item'>User Accounts</a></li>
+                                <li><a href='customers.html' id="customers" class='dropdown-item active'>Customers</a></li>
+                                <li><a href='transport.html' id="transport" class='dropdown-item'>Transport</a></li>
+                                <li><a href='#'  id="logout" class='dropdown-item'>logout</a></li>
+                            </ul>    
+                        </div>
+                    </div>    
+                </nav>
+            </div>
+        </div>
+        <div>
+            <div class="container settingsMenu">
+                <div class='row justify-content-center'>   
+                    <div class='col-6 p-4'> 
+                        <a class="btn btn-sm btn-warning" href="customers.html">Existed Customer</a>
+                        <h1 class="display-6">New Customer</h1>  
+                        <form id="newCustomerForm" class="border p-4 mt-4 bg-light">
+                            <div class='row'>  
+                                <div class="mb-3 col-12">
+                                    <label for="role" class="form-label">* Role</label>
+                                    <select name="role" id="role" class="form-select">
+                                        <option value="Individual">Individual</option>
+                                        <option value="Retailer">Retailer</option>
+                                        <option value="Others">Others</option>
+                                    </select>
+                                </div> 
+                                <div class="mb-3 col-12">
+                                    <label for="gst" class="form-label">GST</label>
+                                    <input type="text" name="gst" id="gst" placeholder="GST" class="form-control" />
+                                </div>
+                                <div class="mb-3 col-12">
+                                    <label for="gst" class="form-label">Confirm GST</label>
+                                    <input type="text" name="gst2" id="gst2" placeholder="GST" class="form-control" /><a href="#" onclick="verifyGST()">Verify</a>
+                                </div>
+                                 
+                                <div class="mb-3 col-12">
+                                    <label for="username" class="form-label">* Name</label>
+                                    <input type="text" name="username" id="username" placeholder="Username" class="form-control" />
+                                </div>                           
+                                <div class="mb-3 col-12">
+                                    <label for="email" class="form-label">* Email</label>
+                                    <input type="email" name="email" id="email" placeholder="Email" class="form-control" />
+                                </div>  
+                               
+                                <div class="mb-3 col-12">
+                                    <label for="mobile" class="form-label">* Mobile</label>
+                                    <input type="number" name="mobile" id="mobile" placeholder="Mobile" class="form-control" />
+                                </div> 
+                                <div class="mb-3 col-12">
+                                    <label for="mobile" class="form-label">* Location</label>
+                                    <input type="text" name="location" id="location" placeholder="Location" class="form-control" />
+                                </div> 
+                               
+                                <div class="mb-3 col-12">
+                                    <label for="mobile" class="form-label">Pincode</label>
+                                    <input type="text" name="pincode" id="pincode" placeholder="Pincode" class="form-control" />
+                                </div> 
+                                <div class="mb-3 col-12">
+                                    <label for="state" class="form-label">State</label>
+                                    <input type="text" name="state" id="state" placeholder="State" class="form-control" />
+                                </div>                                  
+                                
+                                <div class="mb-3 col-12">
+                                    <label for="mobile" class="form-label">Address</label>
+                                    <textarea name="address" id="address" placeholder="Address" class="form-control" ></textarea>
+                                </div>  
+                            </div>   
+                            <button class='btn btn-warning btn-sm'>Create</button>
+                        </form>                     
+                    </div>
+                   
+                </div>
+            </div>    
+        </div>
+    </div>
+
+    <div class="position-fixed bottom-0 start-50 translate-middle-x p-3" style="z-index: 11">
+      <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+          <strong class="me-auto"><i class="bi bi-exclamation-triangle"></i> Alert</strong>
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body"></div>
+      </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script> 
+    <script src="js/init.js"></script>
+    <script src="js/customers.js"></script>
+
+    <script>
+        
+        function verifyGST(){
+            let gst = document.getElementById('gst').value;
+            let gst2 = document.getElementById('gst2').value;
+            if( gst == gst2 ){
+                let gstLink = `https://cleartax.in/gst-number-search/${gst2}/`
+                window.open(gstLink, '_blank');
+            }else{
+                alert("GST you entered are not matched! try again");
+            }
+            
+        }
+    </script>
+
+</body>
+</html>
