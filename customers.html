@@ -61,6 +61,8 @@
                                 <th scope="col">Mobile</th>
                                 <th scope="col">Email</th>
                                 <th scope="col">View</th>
+                                <th scope="col">Edit</th>
+
                                 <th scope="col">Delete</th>
                               </tr>
                             </thead>
@@ -77,6 +79,7 @@
                                     <th scope="col">Mobile</th>
                                     <th scope="col">Email</th>
                                     <th scope="col">View</th>
+                                    <th scope="col">Edit</th>
                                     <th scope="col">Delete</th>
                                 </tr>
                             </tfoot>
@@ -155,14 +158,15 @@
                         inventory.id,
                         inventory.role,
                         inventory.gst,
-                        inventory.name,
-                        inventory.address,
+                        inventory.name ? `<a href="updateOrders.html?id=${inventory.id}">${inventory.name}</a>` : "N/A",
+                        inventory.maplocation ? `<a href="${inventory.maplocation}">${inventory.address}</a>` : inventory.address,
                         inventory.location,
                         inventory.state,
                         inventory.pincode,
                         inventory.mobile,
                         inventory.email,
                         `<button class="viewAccount btn btn-warning btn-sm" data-id="${inventory.id}">View</button>`,
+                        `<a href='editCustomers.html?id=${inventory.id}' class="editAccount btn btn-primary btn-sm" data-id="${inventory.id}">Edit</a>`,
                         `<button class="deleteAccount btn btn-danger btn-sm" data-id="${inventory.id}">Delete</button>`
                     ]);
                 }

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/init.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="css/userAccounts.css">
+</head>
+<body>
+
+
+    <div clas='container-fluid'>
+        <div>
+            <div class="settingsMenu">
+                <nav class="navbar navbar-dark bg-warning">
+                    <div class="container-fluid">
+                        <a class="navbar-brand" href="index.html">
+                            <i class="bi bi-diagram-3-fill" style='font-size: 1em;'></i>                            
+                        </a>
+                        <div class='dropdown'>
+                            <button class="btn btn-warning dropdown-toggle" id="accountMenu" data-bs-toggle="dropdown" aria-expanded="false">My Account</button>
+                            <ul class='dropdown-menu' aria-labelledby="accountMenu">
+                                <li><a href='newOrder.html' id="newOrder" class='dropdown-item'>New Order</a></li>
+                                <li><a href='orders.html' id="newOrder" class='dropdown-item'>Orders</a></li>
+                                <li><a href='acceptedOrders.html' id="newOrder" class='dropdown-item'>Accepted Orders</a></li>
+                                <li><a href='processingOrders.html' id="newOrder" class='dropdown-item'>Processing Orders</a></li>
+                                <li><a href='completedOrders.html' id="newOrder" class='dropdown-item'>Completed Orders</a></li>
+                                <li><a href='stock.html' id="stock" class='dropdown-item'>Stock</a></li>
+                                <li><a href='userAccounts.html' id="userAccount" class='dropdown-item'>User Accounts</a></li>
+                                <li><a href='customers.html' id="customers" class='dropdown-item active'>Customers</a></li>
+                                <li><a href='transport.html' id="transport" class='dropdown-item'>Transport</a></li>
+                                <li><a href='#'  id="logout" class='dropdown-item'>logout</a></li>
+                            </ul>    
+                        </div>
+                    </div>    
+                </nav>
+            </div>
+        </div>
+        <div>
+            <div class="container settingsMenu">
+                <div class='row justify-content-center'>   
+                    <div class='col-6 p-4'> 
+                        <a class="btn btn-sm btn-warning" href="customers.html">Existed Customer</a>
+                        <h1 class="display-6">New Customer</h1>  
+                        <form id="editCustomerForm" class="border p-4 mt-4 bg-light">
+                            <div class='row'>  
+                                <div class="mb-3 col-12">
+                                    <label for="role" class="form-label">* Role</label>
+                                    <select name="role" id="role" class="form-select">
+                                        <option value="Individual">Individual</option>
+                                        <option value="Retailer">Retailer</option>
+                                        <option value="Others">Others</option>
+                                    </select>
+                                </div> 
+                                <div class="mb-3 col-12">
+                                    <label for="gst" class="form-label">GST</label>
+                                    <input type="text" name="gst" id="gst" placeholder="GST" class="form-control" />
+                                </div>
+                                <div class="mb-3 col-12">
+                                    <label for="gst" class="form-label">Confirm GST</label>
+                                    <input type="text" name="gst2" id="gst2" placeholder="GST" class="form-control" /><a href="#" onclick="verifyGST()">Verify</a>
+                                </div>
+                                 
+                                <div class="mb-3 col-12">
+                                    <label for="name" class="form-label">* Name</label>
+                                    <input type="text" name="name" id="name" placeholder="Name" class="form-control" />
+                                </div>                           
+                                <div class="mb-3 col-12">
+                                    <label for="email" class="form-label">* Email</label>
+                                    <input type="email" name="email" id="email" placeholder="Email" class="form-control" />
+                                </div>  
+                               
+                                <div class="mb-3 col-12">
+                                    <label for="mobile" class="form-label">* Mobile</label>
+                                    <input type="number" name="mobile" id="mobile" placeholder="Mobile" class="form-control" />
+                                </div> 
+                                <div class="mb-3 col-12">
+                                    <label for="mobile" class="form-label">* Location</label>
+                                    <input type="text" name="location" id="location" placeholder="Location" class="form-control" />
+                                </div> 
+                               
+                                <div class="mb-3 col-12">
+                                    <label for="mobile" class="form-label">Pincode</label>
+                                    <input type="text" name="pincode" id="pincode" onkeyup="getGeoByPincode(this.value)" placeholder="Pincode" class="form-control" />
+                                </div> 
+                                <div class="mb-3 col-12">
+                                    <label for="state" class="form-label">State</label>
+                                    <select class="form-control" id="state">
+                                        <option value="SelectState">Select State</option>
+                                        <option value="Andra Pradesh">Andra Pradesh</option>
+                                        <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                                        <option value="Assam">Assam</option>
+                                        <option value="Bihar">Bihar</option>
+                                        <option value="Chhattisgarh">Chhattisgarh</option>
+                                        <option value="Goa">Goa</option>
+                                        <option value="Gujarat">Gujarat</option>
+                                        <option value="Haryana">Haryana</option>
+                                        <option value="Himachal Pradesh">Himachal Pradesh</option>
+                                        <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                                        <option value="Jharkhand">Jharkhand</option>
+                                        <option value="Karnataka">Karnataka</option>
+                                        <option value="Kerala">Kerala</option>
+                                        <option value="Madya Pradesh">Madya Pradesh</option>
+                                        <option value="Maharashtra">Maharashtra</option>
+                                        <option value="Manipur">Manipur</option>
+                                        <option value="Meghalaya">Meghalaya</option>
+                                        <option value="Mizoram">Mizoram</option>
+                                        <option value="Nagaland">Nagaland</option>
+                                        <option value="Orissa">Orissa</option>
+                                        <option value="Punjab">Punjab</option>
+                                        <option value="Rajasthan">Rajasthan</option>
+                                        <option value="Sikkim">Sikkim</option>
+                                        <option value="Tamil Nadu">Tamil Nadu</option>
+                                        <option value="Telangana">Telangana</option>
+                                        <option value="Tripura">Tripura</option>
+                                        <option value="Uttaranchal">Uttaranchal</option>
+                                        <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                        <option value="West Bengal">West Bengal</option>
+                                        <option disabled style="background-color:#aaa; color:#fff">UNION Territories</option>
+                                        <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+                                        <option value="Chandigarh">Chandigarh</option>
+                                        <option value="Dadar and Nagar Haveli">Dadar and Nagar Haveli</option>
+                                        <option value="Daman and Diu">Daman and Diu</option>
+                                        <option value="Delhi">Delhi</option>
+                                        <option value="Lakshadeep">Lakshadeep</option>
+                                        <option value="Pondicherry">Pondicherry</option>
+                                      </select>
+                                </div>                                  
+                                
+                                <div class="mb-3 col-12">
+                                    <label for="mobile" class="form-label">Address</label>
+                                    <textarea name="address" id="address" placeholder="Address" class="form-control" ></textarea>
+                                </div>  
+                                <div class="mb-3 col-12">
+                                    <label for="mobile" class="form-label">Goole Sharable Link</label>
+                                    <textarea name="address" id="maplocation" placeholder="Google Map Link" class="form-control" ></textarea>
+                                </div>  
+                            </div>   
+                            <button class='btn btn-warning btn-sm'>Update</button>
+                        </form>                     
+                    </div>
+                   
+                </div>
+            </div>    
+        </div>
+    </div>
+
+    <div class="position-fixed bottom-0 start-50 translate-middle-x p-3" style="z-index: 11">
+      <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+          <strong class="me-auto"><i class="bi bi-exclamation-triangle"></i> Alert</strong>
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body"></div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script> 
+    <script src="js/init.js"></script>
+    <script src="js/editCustomers.js"></script>
+
+    <script>
+        let getGeoByPincodeUrl = "https://api.postalpincode.in/pincode/";
+        
+        function verifyGST(){
+            let gst = document.getElementById('gst').value;
+            let gst2 = document.getElementById('gst2').value;
+            if( gst == gst2 ){
+                let gstLink = `https://cleartax.in/gst-number-search/${gst2}/`
+                window.open(gstLink, '_blank');
+            }else{
+                alert("GST you entered are not matched! try again");
+            }            
+        }
+
+        async function getGeoByPincode(pincode){
+            if( pincode.length==6 ){
+                let data = await fetch(getGeoByPincodeUrl+pincode)
+                    .then(response=>response.json())
+                    .then(data=>{
+                        let state = data[0] && data[0].PostOffice && data[0].PostOffice[0] && data[0].PostOffice[0].State ? data[0].PostOffice[0].State : "";
+                        let select = document.getElementById('state');
+                        let opt = new Option(`${state}`, `${state}`);
+                        opt.selected = true;
+                        select.insertBefore(opt, select.options[0]);
+                        
+
+                    })
+                // check for geo
+            }
+        }
+
+        
+    </script>
+
+</body>
+</html>

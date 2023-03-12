@@ -3,6 +3,7 @@ class Init{
         this.title = title;
         this.loginStatus = false;
         this.userAccountCreationStatus = false;
+        this.userAccountFetchingStatus = false;
         this.userInventoryCreationStatus = false;
     }
     setPageTitle(){
@@ -25,7 +26,7 @@ class Init{
         let request = await this.apiService({}, "./api/getCustomers.php");        
         return request;
     }
-    async newAccount(form){
+    async newAccount(form, editId=false){
         let data = {};
         let role = form.elements[0].value;
         let gst = form.elements[1].value;
@@ -38,6 +39,7 @@ class Init{
         let pincode = form.elements[7].value;
         let states = form.elements[8].value;
         let address = form.elements[9].value;
+        let maplocation = form.elements[10].value;
         data.role = role;
         data.name = name;
         data.email = email;
@@ -46,14 +48,28 @@ class Init{
         data.pincode = pincode;
         data.address = address;
         data.states = states;
+        data.maplocation = maplocation;
+        data.editId = editId;
         data.gst = gst;
         if( role.length>0 && name.length>0 && email.length>0 && mobile.length>0 && location.length>0 && pincode.length>0 && address.length>0 && states.length>0 ) {
             this.userAccountCreationStatus = true;  
-            let responses = await this.apiService(data, './api/customer.php');
+            let responses = editId ? await this.apiService(data, './api/updateCustomer.php') : await this.apiService(data, './api/customer.php');
             return responses;
         }else{
             localStorage.removeItem("userAccount");
             this.userAccountCreationStatus = false;
+            return {"status":false, "msg":"All fields are mandatory"}
+        }    
+    }
+    async getAccountDetails(id){
+        let data = {};
+        data.id = id;
+        if( id && id.length ) {
+            this.userAccountFetchingStatus = true;  
+            let responses = await this.apiService(data, './api/getCustomer.php');
+            return responses;
+        }else{
+            this.userAccountFetchingStatus = false;
             return {"status":false, "msg":"All fields are mandatory"}
         }    
     }
@@ -146,6 +162,33 @@ class Init{
             this.userInventoryCreationStatus = false;
             return {"status":false, "msg":"All fields are mandatory"}
         }    
+    }
+    async renderCustomerForm(dataItems){
+        let role = document.getElementById('role');
+        let data = dataItems[0];
+        for( const property in data ){
+            console.log(`${property} in ${data[property]}`)
+            await this.renderInput(property, data)
+        }
+        let opt = new Option(`${data.role}`, `${data.role}`);
+        opt.selected = true;
+        role.insertBefore(opt, role.options[0]);
+    }
+
+    async renderInput(prop, obj){
+        if( ["role","state"].includes(prop) ){
+            let select = document.getElementById(`${prop}`);
+            let opt = new Option(`${obj[prop]}`,`${obj[prop]}`);
+            opt.selected = true;
+            select.insertBefore(opt, select.options[0])
+        }else if( ["status", "id", "wallet"].includes(prop) ){
+            console.log(prop);
+        }else{
+            if( prop == "gst" ){
+                document.getElementById(`gst2`).value = obj[prop];
+            }
+            document.getElementById(`${prop}`).value = obj[prop];
+        }
     }
 
     async newCategory(form){
@@ -249,6 +292,27 @@ class Init{
         let payingOrder = await this.apiService(ddata, './api/payingOrder.php');  
         return payingOrder;     
     }
+    async payingForCustomer(id, table, payment, modeOfPayment, walletAmount=0, customerId, toBePaid=0 ){   
+        let ddata = {};
+        ddata.id = id;
+        ddata.table = table;
+        ddata.payment = payment;
+        ddata.toBePaid = toBePaid;
+        ddata.customerId = customerId;
+        ddata.modeOfPayment = modeOfPayment;
+        ddata.walletAmount = walletAmount;
+        ddata.walletAmount2 = parseFloat(walletAmount)-parseFloat(payment);
+        // alert(JSON.stringify(ddata));
+        let payingOrder = await this.apiService(ddata, './api/payingForCustomer.php');  
+        return payingOrder;     
+    }
+    async getCustomerPayments(id){   
+        let ddata = {};
+        ddata.id = id;        
+        let getPaidAmount = await this.apiService(ddata, './api/getCustomerPendingAmount.php');  
+        return getPaidAmount;     
+    }
+    
     async updateOrder(id, data){     
         let ddata = JSON.stringify([
             data[0].id, null, data[0].product, null

@@ -23,16 +23,17 @@
         $address = mysqli_real_escape_string($conn, $datas->address);
         $gst = mysqli_real_escape_string($conn, $datas->gst);
         $state = mysqli_real_escape_string($conn, $datas->states);
+        $maplocation = mysqli_real_escape_string($conn, $datas->maplocation);
 
         $date = date('Y-m-d');
         if (  !empty($name) && !empty($location) && !empty($email) && !empty($mobile) && !empty($role) ){
             $query = mysqli_query($conn, "SELECT * FROM `customers` WHERE email='$email' OR mobile='$mobile'") or die(mysqli_error($conn));			
             if( mysqli_num_rows($query) == 0 ){
                 $insert = mysqli_query($conn, "INSERT INTO `customers` 
-                (`name`,`location`,`email`,`mobile`,`role`,`status`,`pincode`, `address`, `state`, `gst`) VALUES('$name', '$location', '$email', '$mobile', '$role', '1', '$pincode', '$address', '$state', '$gst')") or die(mysqli_error($conn));
+                (`name`,`location`,`email`,`mobile`,`role`,`status`,`pincode`, `address`, `state`, `gst`, `maplocation`) VALUES('$name', '$location', '$email', '$mobile', '$role', '1', '$pincode', '$address', '$state', '$gst', '$maplocation')") or die(mysqli_error($conn));
                 $lastinsertid = mysqli_insert_id($conn);
                 $_SESSION['SESS_DIT_UID'] = $lastinsertid;			
-                $_SESSION['SESS_DIT_UNAME'] = $username;			
+                $_SESSION['SESS_DIT_UNAME'] = $username;  			
                         
                 $response = array();
                 header("Content-Type: JSON");

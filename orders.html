@@ -191,7 +191,7 @@
                         let amount = pro[5]*pro[7];
                         let cgst = (gst/2).toFixed(2);
                         let newQty = qtyCheck(pro[7], pro[1]) ? pro[7] : `<span class='text-danger'>${pro[7]}</span>`;
-                        alert(currentTax);
+                        // alert(currentTax);
                         if( currentTax == "gst" ){
                             pros += `<tr><td>${pro[4]}</td><td>${rate}</td><td>
                             <table class=' table table-condensed text-center'><tr><td colspan='2'>${gst} (GST)</td></tr><tr><td>${cgst} (CGST)</td><td>${cgst} (SGST)</td></tr></table>
@@ -207,7 +207,7 @@
 
                     function qtyCheck(qty, productId){
                         let status = true;
-                        home.availableInventory.map((inventory)=>{
+                        home.availableInventory && home.availableInventory.map((inventory)=>{
                             if( inventory.id == productId ){
                                 if(qty > inventory.quantity){
                                     status = false;

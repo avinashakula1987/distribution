@@ -1,15 +1,15 @@
 <?php
 
 
-//    $host = "localhost";
-//    $username = "root";
-//    $password = "";
-//    $database = "distribution";
-
    $host = "localhost";
-   $username = "distributionuser";
-   $password = "7ge,q.khME$]";
+   $username = "root";
+   $password = "";
    $database = "distribution";
+
+//    $host = "localhost";
+//    $username = "distributionuser";
+//    $password = "7ge,q.khME$]";
+//    $database = "distribution";
 
    $conn = db_connection();
 

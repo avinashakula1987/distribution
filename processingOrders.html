@@ -148,13 +148,9 @@
                             });
                         });
 
-
-                        let processStatus = document.querySelectorAll('.processStatus');
-                        processStatus.forEach((item)=>{
-                            item.addEventListener("click", async function(event){
-                                event.preventDefault();
-                                let id = event.target.getAttribute('data-id');
-                                let table = home.table;
+                        $(document).on('click', ".processStatus", async (event)=>{
+                            let id = event.target.getAttribute('data-id');
+                            let table = home.table;
                                 let del = await home.changeProcessStatus(id, table);
                                 if( del.status ){
                                     // event.target.parentNode.parentNode.style.display = "none";
@@ -162,26 +158,35 @@
                                 }else{
                                     home.toaster(del.msg, false);
                                 }
-                            });
-                        });
+                        })
+                        // let processStatus = document.querySelectorAll('.processStatus');
+                        // processStatus.forEach((item)=>{
+                        //     item.addEventListener("click", async function(event){
+                        //         event.preventDefault();
+                        //         let id = event.target.getAttribute('data-id');
+                        //         let table = home.table;
+                        //         let del = await home.changeProcessStatus(id, table);
+                        //         if( del.status ){
+                        //             // event.target.parentNode.parentNode.style.display = "none";
+                        //             home.toaster("Status Changed", true);
+                        //         }else{
+                        //             home.toaster(del.msg, false);
+                        //         }
+                        //     });
+                        // });
 
-                        let acceptItem = document.querySelectorAll('.update');
-                        acceptItem.forEach((item)=>{
-                            item.addEventListener("click", async function(event){
-                                event.preventDefault();
-                                let id = event.target.getAttribute('data-id');
-                                window.location.href = `updateOrder.html?id=${id}`;
-                                // let table = home.table;
-                                // let transport = $(`#transportDrop_${id}`).val();
-                                // let del = await home.moveToTransport(id, table, transport);
-                                // if( del.status ){
-                                //     event.target.parentNode.parentNode.style.display = "none";
-                                //     home.toaster(del.msg, true);
-                                // }else{
-                                //     home.toaster(del.msg, false);
-                                // }
-                            });
-                        });
+                        $(document).on('click', ".update", async (event)=>{
+                            let id = event.target.getAttribute('data-id');
+                            window.location.href = `updateOrder.html?id=${id}`;
+                        })
+                        // let acceptItem = document.querySelectorAll('.update');
+                        // acceptItem.forEach((item)=>{
+                        //     item.addEventListener("click", async function(event){
+                        //         event.preventDefault();
+                        //         let id = event.target.getAttribute('data-id');
+                        //         window.location.href = `updateOrder.html?id=${id}`;                               
+                        //     });
+                        // });
                     });
                 },
                 error: function (e) {

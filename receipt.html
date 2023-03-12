@@ -76,7 +76,14 @@
                 }
                 return false;
             };
-            var id = getUrlParameter("id");
+            function todayDate(){
+                var today = new Date();
+                var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+                var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+                return date+'_'+time;
+            }
+            // var id = getUrlParameter("id")+'_'+todayDate();
+            var id = getUrlParameter("id")+'_'+todayDate();
             var receipt = getUrlParameter("receipt") ? getUrlParameter("receipt") : false;
             var input = document.getElementById('iid');
 
@@ -88,25 +95,46 @@
                         return id+'.jpg';
                     }
                 });
+                async function getImages(data){
+                    let response = await fetch("api/getImages.php", {
+                        method: 'POST',
+                        headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    })
+                    let result = await response.json();
+                    return result;
+                }
+                
 
-                // show existed images
-                let images = "<table class='table table-condensed table-bordered'>";
-                for(let i=1; i<=10; i++){
-                    if( imageExists(`./uploads/${id+'_receipt_'+i+'.jpg'}`) ){
-                        images = images + `<tr><td><a href='uploads/${id+'_receipt_'+i+'.jpg'}' target='_blank'><img src='uploads/${id+'_receipt_'+i+'.jpg'}' width='100'></a></td><td><a class='btn btn-danger btn-sm' img='${id+'_receipt_'+i+'.jpg'}' id='removeImage' href='#' onclick='return false;' style='padding:10px; background:red; color:white; text-decoration:none; border-radius:5px; font-family:arial'>Remove</a></td></tr>`;
-
-                    }
-                }   
-                images = images+"<table>";
-                document.getElementById('existedImages').innerHTML = images;
-
-                $(document).on('click', '#removeImage', function(){
-                    let img = $(this).attr('img');
-                    let tiss = $(this);
-                    $.post("remove.php", {removeImg: img}, function(res){
-                        tiss.parent().parent().hide();                        
+                getImages({id: getUrlParameter("id")}).then(data=>{
+                    let images = "<table class='table table-condensed table-bordered'>";
+                    data.map(img=>{
+                        if( imageExists(`./${img.image}`) ){
+                            console.log(img.image);
+                            let imgname = img.image.split("/")[2].split("_")[1].split(".")[0];
+                            console.log(imgname);
+                            images = images + `<tr>
+                                    <td><a href='${img.image}' target='_blank'><img src='./${img.image}' width='100'></a></td>
+                                    <td><a class='btn btn-danger btn-sm removeImage' img='${img.image}' href='#' onclick='return false;' style='padding:10px; background:red; color:white; text-decoration:none; border-radius:5px; font-family:arial'>Remove</a></td>
+                                    <td>${imgname}</td>
+                                </tr>`;
+                        }
+                    });
+                    images = images+"<table>";
+                    document.getElementById('existedImages').innerHTML = images;
+                    $(document).on('click', '.removeImage', function(){
+                        let img = $(this).attr('img');
+                        let tiss = $(this);
+                        $.post("remove.php", {removeImg: img}, function(res){
+                            tiss.parent().parent().hide();                        
+                        });
                     });
                 });
+               
+               
 
                 $('#backtoPage').click(function(){
                     window.location.href = `updateOrder.html?id=${id}`;

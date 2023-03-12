@@ -1,7 +1,11 @@
 class Home extends Init{
     table = "inventory";
-
+    availableInventory = "";
     async getInventory(){
+        let request = await this.apiService({}, "./api/getInventory.php");        
+        return request;
+    }
+    async getStock(){
         let request = await this.apiService({}, "./api/getInventory.php");        
         return request;
     }
@@ -69,6 +73,9 @@ class Home extends Init{
 let home =  new Home("Orders");
 home.setPageTitle();
 home.redirectToHome();
+home.getStock().then((data)=>{
+    home.availableInventory = data;
+});
 let cus = home.getCustomers().then((data)=>{
     home.renderCustomers(data);    
 });

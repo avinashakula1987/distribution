@@ -1,6 +1,6 @@
 <?php
     if( isset($_POST['removeImg']) ){
-        $img = "uploads/".$_POST['removeImg'];
+        $img = $_POST['removeImg'];
         if( file_exists($img) ){
             unlink($img);
             echo "Deleted";
